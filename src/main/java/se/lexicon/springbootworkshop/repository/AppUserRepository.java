@@ -11,7 +11,7 @@ public interface AppUserRepository extends CrudRepository<AppUser, Integer> {
 
     List<AppUser> findByUsername(String username);
 
-    List<AppUser> findByRegDateBetween(LocalDate startDate, LocalDate endDate);
+    List<AppUser> findByRegDateBetween(String regDate, String regDate2);
 
     Optional<AppUser> findByUserDetails_Id(int id);
 
