@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface AppUserRepository extends CrudRepository<AppUser, Integer> {
 
-    List<AppUser> findByUsername(String username);
+    Optional<AppUser> findByUsername(String username);
 
     List<AppUser> findByRegDateBetween(String regDate, String regDate2);
 
