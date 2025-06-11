@@ -48,6 +48,7 @@ public class AppUserRepositoryTest {
 
 
     }
+
     @Test
     void testFindByRegDateBetween() {
         Details details = Details.builder()
@@ -72,6 +73,7 @@ public class AppUserRepositoryTest {
         assertThat(users).isNotNull();
         assertThat(users.get(0).getUsername()).isEqualTo("fidelis.che");
     }
+
     @Test
     void testFindByUserDetailsId() {
         Details details = Details.builder()
@@ -94,6 +96,7 @@ public class AppUserRepositoryTest {
         assertThat(found).isPresent();
         assertThat(found.get().getUsername()).isEqualTo("lizzy.neol");
     }
+
     @Test
     void testFindByUserDetailsEmailIgnoreCase() {
         Details details = Details.builder()
