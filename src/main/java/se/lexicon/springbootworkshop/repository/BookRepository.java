@@ -7,7 +7,7 @@ import se.lexicon.springbootworkshop.entity.Book;
 import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
-    Book findByIsbnIgnoreCase(String isbn);
+    List<Book> findByIsbnIgnoreCase(String isbn);
 
     List<Book> findByTitleContainingIgnoreCase(String title);
 

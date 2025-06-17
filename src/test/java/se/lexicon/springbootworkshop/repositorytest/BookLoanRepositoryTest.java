@@ -93,6 +93,11 @@ public class BookLoanRepositoryTest {
         List<BookLoan> result = bookLoanRepository.findByReturnedFalse();
         assertThat(result).contains(bookLoan);
     }
+    @Test
+    void testFindByDueDateBeforeAndReturnedFalse() {
+        List<BookLoan> result = bookLoanRepository.findByDueDateBeforeAndReturnedFalse(LocalDate.now());
+        assertThat(result).contains(bookLoan);
+    }
 
     @Test
     void testFindByLoanDateBetween() {
