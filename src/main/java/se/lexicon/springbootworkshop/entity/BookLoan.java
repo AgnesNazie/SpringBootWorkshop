@@ -38,4 +38,13 @@ public class BookLoan {
     @ManyToOne(optional = false)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
+
+    @PrePersist
+    public void calculateDueDate() {
+        if (loanDate != null && this.book.getMaxLoanDays() > 0) {
+            this.dueDate = this.loanDate != null
+                    ? this.loanDate.plusDays(book.getMaxLoanDays())
+                    : LocalDate.now().plusDays(book.getMaxLoanDays());
+        }
+    }
 }

@@ -8,10 +8,8 @@ import se.lexicon.springbootworkshop.entity.*;
 import se.lexicon.springbootworkshop.repository.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-
 
 
 @Component
@@ -61,6 +59,9 @@ public class MyCommandLineRunner implements CommandLineRunner {
                 .maxLoanDays(10)
                 .authors(new HashSet<>(Arrays.asList(author, author2)))
                 .build());
+        //set book as available to borrow
+        book.setAvailable(true);
+        book = bookRepository.save(book);
 
         //create and save appuser
         AppUser appUser = appUserRepository.save(AppUser.builder()
@@ -71,7 +72,7 @@ public class MyCommandLineRunner implements CommandLineRunner {
                 .build());
 
         //create and save bookloan
-        bookLoanRepository.save(BookLoan.builder()
+        BookLoan bookLoan = bookLoanRepository.save(BookLoan.builder()
                 .loanDate(LocalDate.now().minusDays(3))
                 .dueDate(LocalDate.now().plusDays(7))
                 .borrower(appUser)
@@ -105,5 +106,32 @@ public class MyCommandLineRunner implements CommandLineRunner {
         //test find by book id
         System.out.println("\nAuthors of Book with Id:" + book.getId() + ":");
         authorRepository.findByBookId(book.getId()).forEach(System.out::println);
+
+        // test part 5
+
+        //test bidirectional add
+        appUser.addBookLoan(bookLoan);
+
+        //save changers
+        appUserRepository.save(appUser);
+
+        //confirm book is avaliable
+        System.out.println("Book loan available: " + bookLoanRepository.findByBookId(book.getId()));
+
+        //add author and link to book
+        Author author3 = Author.builder()
+                .firstName("fidelis")
+                .lastName("che")
+                .build();
+        //link author to book
+        book.addAuthor(author3);
+
+        //save both sides
+        authorRepository.save(author3);
+        bookRepository.save(book);
+
+        //confirm author is linked to book
+        System.out.println("Author linked to book: ");
+
     }
 }

@@ -28,6 +28,8 @@ public class Book {
     @Column(name = "max_loan_days")
     private int maxLoanDays;
 
+    private boolean available = true;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @ToString.Exclude
     @JoinTable(
@@ -35,4 +37,14 @@ public class Book {
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private Set<Author> authors = new HashSet<>();
+
+    public void addAuthor(Author author) {
+        authors.add(author);
+        author.getBooks().add(this);
+
+    }
+    public void removeAuthor(Author author) {
+        authors.remove(author);
+        author.getBooks().remove(this);
+    }
 }

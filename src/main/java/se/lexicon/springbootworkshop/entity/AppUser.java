@@ -3,6 +3,9 @@ package se.lexicon.springbootworkshop.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //@Entity marks the class as a JPA entity (mapped a table)
 @Entity
 //@Getter generates getters for all fields
@@ -39,4 +42,20 @@ public class AppUser {
     //@JoinColumn marks the field as a foreign key
     @JoinColumn(name = "details_id", referencedColumnName = "id")
     private Details userDetails;
+
+    @OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<BookLoan> bookLoans = new ArrayList<>();
+
+    public void addBookLoan(BookLoan bookLoan) {
+
+        if (!bookLoan.getBook().isAvailable()) {
+            throw new IllegalArgumentException("Book is not available for loan");
+
+        }
+        bookLoan.setBorrower(this);
+        this.bookLoans.add(bookLoan);
+        //marks as not available for loan
+        bookLoan.getBook().setAvailable(false);
+    }
+
 }
