@@ -19,4 +19,5 @@ public interface BookLoanRepository extends JpaRepository<BookLoan, Integer> {
 
     List<BookLoan> findByLoanDateBetween(LocalDate start, LocalDate end);
 
+
 }
